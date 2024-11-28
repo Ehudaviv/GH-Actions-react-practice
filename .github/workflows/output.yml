@@ -1,11 +1,25 @@
-name: Data output
-on: [workflow_dispatch]
+name: Data Output
+
+on:
+  issues:
+    types: [opened, edited]
+
 jobs:
   output:
     runs-on: ubuntu-latest
     steps:
-      - name: Get GitHub Context
-        run: echo "${{ toJson(github) }}"
-      - name: Get job Context
-        run: echo "${{ toJson(job) }}"
-        
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Print GitHub Context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+      - name: Fetch Issue Details
+        env:
+          ISSUE_PAYLOAD: ${{ toJson(github.event) }}
+        run: |
+          echo "Fetching issue details:"
+          echo "$ISSUE_PAYLOAD" | jq
+
