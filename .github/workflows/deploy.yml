@@ -10,6 +10,7 @@ jobs:
       - name: Get code
         uses: actions/checkout@v3
       - name: Load & Cache dependencies
+        id: load-cache
         uses: ./.github/actions/cached-deps
         with:
           caching: false
