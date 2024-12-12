@@ -62,7 +62,7 @@ jobs:
           name: dist-files
           path: ./dist
       - name: Output contents
-        run: ls
+        run: ls ./dist
       - name: Deploy site
         id: deploy-site
         uses: ./.github/actions/deploy-s3-docker
@@ -71,7 +71,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
         with:
           bucket: gha-training-upload-site-ea-js
-          # region: us-east-1
           dist_folder: ./dist
       - name: Output URL
         run: |

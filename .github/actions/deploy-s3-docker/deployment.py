@@ -10,22 +10,24 @@ def run():
     dist_folder = os.environ['INPUT_DIST_FOLDER']
 
     configuration = Config(region_name=bucket_region)
-
     s3_client = boto3.client('s3', config=configuration)
 
     for root, subdirs, files in os.walk(dist_folder):
         for file in files:
+            file_path = os.path.join(root, file)
+            s3_key = os.path.relpath(file_path, dist_folder)
+
             s3_client.upload_file(
-                os.path.join(root, file),
+                file_path,
                 bucket,
-                os.path.join(root, file).replace(dist_folder + '/', ''),
+                s3_key,
                 ExtraArgs={"ContentType": mimetypes.guess_type(file)[0]}
             )
 
     url = f'http://{bucket}.s3-website-{bucket_region}.amazonaws.com'
-    # The below code sets the 'website-url' output (the old ::set-output syntax isn't supported anymore - that's the only thing that changed though)
+
     with open(os.environ['GITHUB_OUTPUT'], 'a') as gh_output:
-        print(f'website-url={url}', file=gh_output)
+        print(f'url={url}', file=gh_output)
 
 
 if __name__ == '__main__':
