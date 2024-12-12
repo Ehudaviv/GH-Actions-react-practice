@@ -11,6 +11,9 @@ inputs:
   dist-folder:
     description: 'The folder containing the built website.'
     required: true
+outputs:
+  url:
+    description: 'The URL of the deployed website.'
 runs:
   using: 'node20'
   main: 'main.js'

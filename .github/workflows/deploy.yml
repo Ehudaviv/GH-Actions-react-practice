@@ -64,6 +64,7 @@ jobs:
       - name: Output contents
         run: ls
       - name: Deploy site
+        id: deploy-site
         uses: ./.github/actions/deploy-s3-js
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
@@ -72,3 +73,6 @@ jobs:
           bucket: gha-training-upload-site-ea-js
           # region: us-east-1
           dist-folder: ./dist
+      - name: Output URL
+        run: |
+          echo "Deployed to ${{ steps.deploy-site.outputs.url }}"
