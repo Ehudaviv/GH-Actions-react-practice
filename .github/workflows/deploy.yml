@@ -72,7 +72,7 @@ jobs:
         with:
           bucket: gha-training-upload-site-ea-js
           # region: us-east-1
-          dist-folder: ./dist
+          dist_folder: ./dist
       - name: Output URL
         run: |
           echo "Deployed to ${{ steps.deploy-site.outputs.url }}"
