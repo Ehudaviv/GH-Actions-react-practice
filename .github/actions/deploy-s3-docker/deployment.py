@@ -6,7 +6,7 @@ from botocore.config import Config
 
 def run():
     bucket = os.environ['INPUT_BUCKET']
-    bucket_region = os.environ['INPUT_BUCKET-REGION']
+    bucket_region = os.environ['INPUT_REGION']
     dist_folder = os.environ['INPUT_DIST-FOLDER']
 
     configuration = Config(region_name=bucket_region)
@@ -22,10 +22,10 @@ def run():
                 ExtraArgs={"ContentType": mimetypes.guess_type(file)[0]}
             )
 
-    website_url = f'http://{bucket}.s3-website-{bucket_region}.amazonaws.com'
+    url = f'http://{bucket}.s3-website-{bucket_region}.amazonaws.com'
     # The below code sets the 'website-url' output (the old ::set-output syntax isn't supported anymore - that's the only thing that changed though)
     with open(os.environ['GITHUB_OUTPUT'], 'a') as gh_output:
-        print(f'website-url={website_url}', file=gh_output)
+        print(f'website-url={url}', file=gh_output)
 
 
 if __name__ == '__main__':
